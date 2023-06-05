@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="zh-Hant">
+<html lang="zh-TW">
+<head>
+<meta charset = "utf-8"/>
+<meta name=”viewport” content=”width=device-width”>
+<style type="text/css">
+
+    @import"decoration.css";
+</style>
+
+<h1><img src=https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/306154811_166816119353391_872147966920658102_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=1zalLb-7qckAX-dOOYt&_nc_ht=scontent-hkt1-1.xx&oh=00_AfBNXSymOguqfN5xLTmxv2_GI1DLMerGb-VjcOFk0Od8zA&oe=64731749 width="100" height="80">宜大模型社<img src=https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/306154811_166816119353391_872147966920658102_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=1zalLb-7qckAX-dOOYt&_nc_ht=scontent-hkt1-1.xx&oh=00_AfBNXSymOguqfN5xLTmxv2_GI1DLMerGb-VjcOFk0Od8zA&oe=64731749 width="100" height="80"></h1>
+  
+<div id=sidebar_left>
+  <ul>關於我們<br>
+  <li>成立宗旨</li>
+  <li>歷任成員</li>
+  <li>過去成就</li>
+  <li>友誼社團</li>
+    <h2 ><a href="https://codepen.io/Tu-Kuan-Lin/pen/BaOzdBL"><input type = "Submit" value = "加入我們"></h2></a> 
+    <h2 ><a href="https://codepen.io/Tu-Kuan-Lin/pen/VwGEvqY"><input type = "Submit" value = "了解版主"></h2></a> 
+</ul>
+   
+</div> 
+<script>
+    setInterval(play,3000);
+    var index=0;
+    
+    function play(){
+      
+      var imgs = document.getElementById("pictures").
+                   getElementsByTagName("img");
+      var bigImg = document.getElementById("big");
+      imgs[index].classList.remove("selected");
+      index++;
+      if(index == imgs.length) index=0;
+      imgs[index].classList.add("selected");
+      bigImg.setAttribute("src",imgs[index].getAttribute("src"));
+    }
+    </script>
+
+</head>
+  
+<body>
+ <div id=sidebar_right>
+  <ul>社團運作<br>
+  <li>現任幹部</li>
+  <li>社團經費</li>
+  <li>現有社產</li>
+  <li>未來目標</li>
+    
+  <fieldset>
+    <legend><i><b>意見箱</b></i></legend>
+    <textarea name="comment" rows="6" cols="30"></textarea><br>
+        <button onclick="addopinion()">留言</button>    
+   
+</div>  
+
+  
+  <div id="middle">
+    <table border=3 cellpadding=5>
+      <tr>
+        <td colspan="3"><p><b>最新消息</b></p></td> 
+      </tr>
+  <tr>
+        <td colspan="3"><p>社團活動</p>
+          <ul>
+            <li>特別社課</li>
+            <li>社展</li>
+            <li>參訪北科ACG社</li>
+          </ul>
+          
+
+        </td>
+  </tr>
+      <tr>
+        <td colspan="3">
+          <p>例行社課</p>
+      <tr>
+  <th colspan="3">學生活動中心5樓 研習室C or 社辦
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14493.704176149076!2d121.7481587!3d24.7465775!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3467e5cf0f3b9465%3A0xd9aad3bacf8097c4!2z5ZyL56uL5a6c6Jit5aSn5a24IOWtuOeUn-a0u-WLleS4reW_gw!5e0!3m2!1szh-TW!2stw!4v1685462230744!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></th>
+   </tr>
+      <tr>
+        <td rowspan="5">3月</td>
+      </tr>
+      <tr>
+        <td>7日</td>
+        <td rowspan="4"> 19:00~21:00</td>
+      </tr>
+      <tr>
+        <td>14日</td>
+      </tr>
+      <tr>
+        <td>21日</td>
+      </tr>
+      <tr>
+        <td>28日</td>
+      </tr>
+</table>
+        </td >
+        </td>
+ 
+  
+    <div id="pictures">
+    <img class="small selected" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/344380164_258199106770954_1852745139607561723_n.jpg?stp=dst-jpg_p180x540&_nc_cat=110&ccb=1-7&_nc_sid=730e14&_nc_ohc=CahxdxXsbJEAX8AeiiM&_nc_ht=scontent-hkt1-1.xx&oh=00_AfD0yGnU19OiyNCGLqQfilftnscnHK65MV6rqlwbX9ZsNw&oe=64726B0D" width="100" height="80">
+    <img class="small selected" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/269948431_205868911757371_3215157991622007577_n.jpg?stp=dst-jpg_p180x540&_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=W0BPjzy-5iwAX-nKSSy&_nc_ht=scontent-hkt1-1.xx&oh=00_AfDYI7F0mDweF-AA-PNVJavrmBohJ3q5hNwbCLj86mH9Rg&oe=647308F6" width="100" height="80">
+    <img class="small selected" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/307092253_166816549353348_2875535394121650828_n.jpg?stp=dst-jpg_s600x600&_nc_cat=111&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=4TDgh5Cpj_cAX-nWhiJ&_nc_ht=scontent-hkt1-1.xx&oh=00_AfD0mlSioPqhmoAHMiDXPectxj7zifa8x7f8CLY3VGvCrQ&oe=6472DF9C" width="100" height="80">
+    <img class="small selected" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/280582612_291448829866045_2335103241751027349_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=GO5oKcLHTOEAX_NG3gN&_nc_ht=scontent-hkt1-1.xx&oh=00_AfBjkxmIZCq_s-1Ec70iFysTWvmh5aJLgCkXmgtN_BxQEg&oe=6472A7C3" width="100" height="80">
+    
+    <img class="small selected" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/307336947_377960137881580_4273426964593143009_n.jpg?stp=dst-jpg_p180x540&_nc_cat=110&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=VB7vGReOKuEAX9wCxp9&_nc_ht=scontent-hkt1-1.xx&oh=00_AfCg4FmpyxfCuD492C-K8bfv3ibeGeEt_Soj0sWEWN-yDg&oe=64726C9E" width="100" height="80">
+    <img class="small selected" src="https://scontent.ftpe3-2.fna.fbcdn.net/v/t39.30808-6/301389059_363615669316027_6293003578443602495_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=108&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=Xp2VJIM5gOoAX9Ck7Sh&_nc_ht=scontent.ftpe3-2.fna&oh=00_AfAEMdZ7wKrQIEz_7gVNSpCIeyxBUgJyewp4F-RTumYgFw&oe=647BD2CE" width="100" height="80">
+  </div>  
+  <div> 
+    <img id="big" src="https://scontent.ftpe3-2.fna.fbcdn.net/v/t39.30808-6/301389059_363615669316027_6293003578443602495_n.jpg?stp=cp6_dst-jpg_p180x540&_nc_cat=108&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=Xp2VJIM5gOoAX9Ck7Sh&_nc_ht=scontent.ftpe3-2.fna&oh=00_AfAEMdZ7wKrQIEz_7gVNSpCIeyxBUgJyewp4F-RTumYgFw&oe=647BD2CE">
+  </div> 
+  
+    </table>
+    </div> 
+  <div id="footer">
+  <h3>社團FB粉絲專頁:宜大模型社    社團信箱:mmc1234@ems.niu.edu.tw</h3>
+        </div>
+        
+        </div>
+</body>
+  </html>
