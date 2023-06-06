@@ -1,0 +1,24 @@
+body {background-color:rgb(255, 253, 172);}
+#sitebody { margin: 0 auto}
+#sidebar_left{width:25%;float:left;background:rgb(197, 229, 248);}
+#sidebar_right{width:25%;float:right;background:rgb(197, 229, 248);}
+#middle{margin-left:25%;margin-right:25%;background:rgb(255, 192, 0);}
+#footer{clear:both;background:black}
+
+th{text-align:center;font-size: 200%;}
+h1{text-align:center;color: black;font-family: courier;font-size: 500%;}
+p {text-align:center;font-size: 250%;}
+ul{text-align:center;font-size: 200%;}
+li{text-align:center;font-size: 75%;}
+
+table {width:100%;}
+
+h2   {text-align:center}
+h3  {text-align:center;color: white;}
+.small{
+  width:99px;
+  margin:2px;
+  padding:2px;
+  border:1px;
+}
+#big {width:667px;}
