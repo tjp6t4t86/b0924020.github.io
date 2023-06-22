@@ -109,7 +109,7 @@
               formData.append('croppedImage', croppedImage.src);
             }
         
-            fetch('action_page.php', {
+            fetch('app.py', {
               method: 'POST',
               body: formData,
             })
