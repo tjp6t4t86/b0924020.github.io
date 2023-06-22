@@ -1,0 +1,206 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<html lang="zh-Hant">
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST</title>
+    <link rel="stylesheet" herf="http://pyscript.net/alpha/pyscript.css" />
+    <script defer src="http://pyscript.net/alpha/pyscript.js"></script>
+    <meta charset="UTF-8">
+    <title>Camera and Image Cropping</title>
+    <style>
+        #videoElement {
+            width: 100%;
+            height: auto;
+        }
+
+        #canvasElement {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">  
+</head>
+<body>
+  <h1> EMLAB </h1>
+    <py-env>
+     - numpy
+
+    </py-env>
+    <py-script>
+      print("HALLOW")
+    </py-script>
+      
+      <form action="/action_page.php">
+        <label for="fname">客戶名稱:</label>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="lname">連絡電話:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+        <legend><i><b>備註(地址、需要統編或有其他需求請在此填寫)</b></i></legend>
+      <textarea name="comment" rows="6" cols="30"></textarea><br>
+        <br>
+         <label for="methon">計數目標:</label>
+        <select>
+          <option>請選擇你的計數目標</option>
+          <option>M-endo</option>
+          <option>PlateCountMethod</option>
+          <option>Hemocytometer</option>
+        </select>
+        <br>
+        <input type="file" id="fileInput" accept="image/*" />
+        <div id="fileInfo"></div>
+        <script>
+          var inputFile = document.getElementById('fileInput');
+          var fileInfoElement = document.getElementById('fileInfo');
+        
+          inputFile.addEventListener('change', function(event) {
+            var fileData = event.target.files[0];
+            var fileName = fileData.name;
+            var fileType = fileData.type;
+            var fileSize = Math.floor(fileData.size * 0.001);
+            var fileTime = fileData.lastModifiedDate;
+        
+            // 将文件信息写入 fileInfoElement
+            fileInfoElement.innerHTML = '文件名：' + fileName + '<br>' +
+                                        '文件类型：' + fileType + '<br>' +
+                                        '文件大小：' + fileSize + ' KB' + '<br>' +
+                                        '最后修改时间：' + fileTime;
+          });
+        </script>
+        
+        <div id="imageContainer"></div>
+        <button id="cropButton">裁剪</button>
+        
+        <script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
+        <script>
+          var inputFile = document.getElementById('fileInput');
+          var imageContainer = document.getElementById('imageContainer');
+          var cropButton = document.getElementById('cropButton');
+          var cropper;
+        
+          inputFile.addEventListener('change', function(event) {
+            var fileData = event.target.files[0];
+            var imageURL = URL.createObjectURL(fileData);
+        
+            // 创建图像元素并设置图像 URL
+            var image = document.createElement('img');
+            image.src = imageURL;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(image);
+        
+            // 初始化 Cropper 对象
+            cropper = new Cropper(image, {
+              aspectRatio: 1, // 设置裁剪框的宽高比例
+              viewMode: 1, // 设置裁剪框只能在图像内部移动
+            });
+          });
+        
+          cropButton.addEventListener('click', function() {
+            // 获取裁剪后的图像数据
+            var croppedImageData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+        
+            // 创建图像元素并显示裁剪后的图像
+            var croppedImage = document.createElement('img');
+            croppedImage.src = croppedImageData;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(croppedImage);
+          });
+        </script>
+        
+
+        <input type="submit" value="提交資料">
+
+      </form>
+
+      <video id="videoElement"></video>
+      <canvas id="canvasElement"></canvas>
+      <button id="captureButton">拍照</button>
+      <div id="cropperContainer"></div>
+      <button id="cropButton">修剪</button>
+      <script src="https://unpkg.com/cropperjs"></script>
+      <script>
+          var video = document.getElementById('videoElement');
+          var canvas = document.getElementById('canvasElement');
+          var context = canvas.getContext('2d');
+          var cropperContainer = document.getElementById('cropperContainer');
+          var cropper;
+  
+          // 取得相機視訊流
+          navigator.mediaDevices.getUserMedia({ video: true })
+              .then(function (stream) {
+                  video.srcObject = stream;
+                  video.play();
+              })
+              .catch(function (error) {
+                  console.error('無法取得相機視訊流: ', error);
+              });
+  
+          // 當按下拍照按鈕時，進行拍照
+          document.getElementById('captureButton').addEventListener('click', function () {
+              // 設定canvas的寬度和高度與視訊流的寬度和高度相同
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+  
+              // 在canvas上繪製視訊流的當前幀
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+              // 顯示圖片修剪工具
+              cropperContainer.innerHTML = '';
+              cropperContainer.appendChild(canvas);
+              cropper = new Cropper(canvas, {
+                  aspectRatio: 1, // 設定修剪框的長寬比例，這裡設定為1表示正方形
+                  viewMode: 1, // 設定修剪框的顯示模式，這裡設定為1表示限制在容器內
+              });
+          });
+  
+          // 當按下修剪按鈕時，取得修剪後的圖片資料
+          document.getElementById('cropButton').addEventListener('click', function () {
+              var croppedCanvas = cropper.getCroppedCanvas(); // 取得修剪後的canvas元素
+              var croppedImage = croppedCanvas.toDataURL('image/jpeg'); // 將修剪後的圖片轉為Base64編碼的資料
+  
+              // 在這裡你可以進一步處理修剪後的圖片，例如上傳到伺服器或顯示在網頁上
+              console.log('修剪後的圖片資料: ', croppedImage);
+              
+              // 清除修剪工具，準備進行下一次拍照和修剪
+              cropper.destroy();
+              cropperContainer.innerHTML = '';
+          });
+        document.getElementById('cropButton').addEventListener('click', function () {
+      var croppedCanvas = cropper.getCroppedCanvas(); // 取得修剪後的canvas元素
+      var croppedImage = croppedCanvas.toDataURL('image/jpeg'); // 將修剪後的圖片轉為Base64編碼的資料
+  
+      // 在網頁上顯示修剪後的圖片
+      var croppedImageElement = document.createElement('img');
+      croppedImageElement.src = croppedImage;
+      document.body.appendChild(croppedImageElement);
+  });
+  
+      </script>
+  
+  
+</body>
+</html>
