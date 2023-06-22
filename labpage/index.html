@@ -48,8 +48,68 @@
           <option>PlateCountMethod</option>
           <option>Hemocytometer</option>
         </select>
+        <br>
+        <input type="file" id="fileInput" accept="image/*" />
+        <div id="fileInfo"></div>
+        <script>
+          var inputFile = document.getElementById('fileInput');
+          var fileInfoElement = document.getElementById('fileInfo');
+        
+          inputFile.addEventListener('change', function(event) {
+            var fileData = event.target.files[0];
+            var fileName = fileData.name;
+            var fileType = fileData.type;
+            var fileSize = Math.floor(fileData.size * 0.001);
+            var fileTime = fileData.lastModifiedDate;
+        
+            // 将文件信息写入 fileInfoElement
+            fileInfoElement.innerHTML = '文件名：' + fileName + '<br>' +
+                                        '文件类型：' + fileType + '<br>' +
+                                        '文件大小：' + fileSize + ' KB' + '<br>' +
+                                        '最后修改时间：' + fileTime;
+          });
+        </script>
+        
+        <div id="imageContainer"></div>
+        <button id="cropButton">裁剪</button>
+        
+        <script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
+        <script>
+          var inputFile = document.getElementById('fileInput');
+          var imageContainer = document.getElementById('imageContainer');
+          var cropButton = document.getElementById('cropButton');
+          var cropper;
+        
+          inputFile.addEventListener('change', function(event) {
+            var fileData = event.target.files[0];
+            var imageURL = URL.createObjectURL(fileData);
+        
+            // 创建图像元素并设置图像 URL
+            var image = document.createElement('img');
+            image.src = imageURL;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(image);
+        
+            // 初始化 Cropper 对象
+            cropper = new Cropper(image, {
+              aspectRatio: 1, // 设置裁剪框的宽高比例
+              viewMode: 1, // 设置裁剪框只能在图像内部移动
+            });
+          });
+        
+          cropButton.addEventListener('click', function() {
+            // 获取裁剪后的图像数据
+            var croppedImageData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+        
+            // 创建图像元素并显示裁剪后的图像
+            var croppedImage = document.createElement('img');
+            croppedImage.src = croppedImageData;
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(croppedImage);
+          });
+        </script>
+        
 
-            <br>
         <input type="submit" value="提交資料">
 
       </form>
