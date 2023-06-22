@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="zh-Hant">
-<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,108 +22,89 @@
     <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">  
 </head>
 <body>
-  <h1> EMLAB </h1>
+    <h1> EMLAB </h1>
     <py-env>
      - numpy
-
     </py-env>
     <py-script>
       print("HALLOW")
     </py-script>
       
-      <form id="myForm">
+    <form id="myForm" action="/submit_form" method="post">
         <label for="fname">客戶名稱:</label>
         <input type="text" id="fname" name="fname"><br>
         <label for="lname">連絡電話:</label>
         <input type="text" id="lname" name="lname"><br><br>
         <legend><i><b>備註(地址、需要統編或有其他需求請在此填寫)</b></i></legend>
-      <textarea name="comment" rows="6" cols="30"></textarea><br>
+        <textarea name="comment" rows="6" cols="30"></textarea><br>
         <br>
-         <label for="methon">計數目標:</label>
+        <label for="method">計數目標:</label>
         <select id="method" name="method">
-          <option value="">請選擇你的計數目標</option>
-          <option value="M-endo">M-endo</option>
-          <option value="PlateCountMethod">PlateCountMethod</option>
-          <option value="Hemocytometer">Hemocytometer</option>
+            <option value="">請選擇你的計數目標</option>
+            <option value="M-endo">M-endo</option>
+            <option value="PlateCountMethod">PlateCountMethod</option>
+            <option value="Hemocytometer">Hemocytometer</option>
         </select>
         <br>
         <input type="file" id="fileInput" accept="image/*" />
         <div id="fileInfo"></div>
+        
         <div id="imageContainer"></div>
         <button id="cropButton">裁剪</button>
-        <button id="submitButton">提交資料</button>
-      </form>
         
         <script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
         <script>
-          var inputFile = document.getElementById('fileInput');
-          var fileInfoElement = document.getElementById('fileInfo');
-          var imageContainer = document.getElementById('imageContainer');
-          var cropButton = document.getElementById('cropButton');
-          var submitButton = document.getElementById('submitButton');
-          var cropper;
-        
-          inputFile.addEventListener('change', function(event) {
-            var file = event.target.files[0];
-            var reader = new FileReader();
-        
-            reader.onload = function(event) {
-              var img = document.createElement('img');
-              img.src = event.target.result;
-              imageContainer.innerHTML = '';
-              imageContainer.appendChild(img);
-        
-              cropper = new Cropper(img, {
-                aspectRatio: 1 / 1,
-                crop(event) {
-                  console.log(event.detail.x);
-                  console.log(event.detail.y);
-                  console.log(event.detail.width);
-                  console.log(event.detail.height);
-                },
-              });
-            };
-        
-            reader.readAsDataURL(file);
-          });
-        
-          cropButton.addEventListener('click', function() {
-            var canvas = cropper.getCroppedCanvas({
-              width: 400,
-              height: 400,
+            var inputFile = document.getElementById('fileInput');
+            var fileInfo = document.getElementById('fileInfo');
+            var imageContainer = document.getElementById('imageContainer');
+            var cropButton = document.getElementById('cropButton');
+            
+            inputFile.addEventListener('change', function() {
+                var file = this.files[0];
+                
+                fileInfo.textContent = '檔名: ' + file.name + ' 檔案類型: ' + file.type + ' 檔案大小: ' + file.size + ' bytes';
+                
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+                    
+                    imageContainer.innerHTML = '';
+                    imageContainer.appendChild(image);
+                    
+                    var cropper = new Cropper(image);
+                    
+                    cropButton.addEventListener('click', function() {
+                        var croppedImage = cropper.getCroppedCanvas();
+                        croppedImage.toBlob(function(blob) {
+                            var croppedPreview = document.createElement('img');
+                            croppedPreview.src = URL.createObjectURL(blob);
+                            
+                            imageContainer.innerHTML = '';
+                            imageContainer.appendChild(croppedPreview);
+                            
+                            var formData = new FormData();
+                            formData.append('fname', document.getElementById('fname').value);
+                            formData.append('lname', document.getElementById('lname').value);
+                            formData.append('comment', document.getElementsByName('comment')[0].value);
+                            formData.append('method', document.getElementById('method').value);
+                            formData.append('croppedImage', blob, 'cropped_image.jpg');
+                            
+                            var request = new XMLHttpRequest();
+                            request.open('POST', '/submit_form');
+                            request.send(formData);
+                        });
+                    });
+                };
+                
+                reader.readAsDataURL(file);
             });
-        
-            var croppedImage = document.createElement('img');
-            croppedImage.src = canvas.toDataURL();
-            fileInfoElement.innerHTML = '';
-            fileInfoElement.appendChild(croppedImage);
-          });
-        
-          submitButton.addEventListener('click', function() {
-            var formData = new FormData(document.getElementById('myForm'));
-            var croppedImage = fileInfoElement.querySelector('img');
-        
-            if (croppedImage) {
-              formData.append('croppedImage', croppedImage.src);
-            }
-        
-            fetch('app.py', {
-              method: 'POST',
-              body: formData,
-            })
-              .then(function(response) {
-                return response.json();
-              })
-              .then(function(data) {
-                console.log(data);
-              })
-              .catch(function(error) {
-                console.error('Error:', error);
-              });
-          });
         </script>
+        
+        <input type="submit" value="提交資料">
+    </form>
 </body>
 </html>
-
 
 
