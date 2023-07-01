@@ -28,8 +28,25 @@
     </py-env>
     <py-script>
       print("HALLOW")
+      image = cv2.imread("image.jpg")
+
+      gray = cv2.cvtColor(image,      cv2.COLOR_BGR2GRAY)
+      thresh = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY)[1]
+  
+      cnts = cv2.findContours(thresh.copy(),  cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+  
+      count = 0
+      for c in cnts:
+          area = cv2.contourArea(c)
+          if area > 100:
+             count += 1
+  
+      print("菌落数量：", count)
     </py-script>
-      
+
+    <py-script src="./selection method.py"></py-script>
+
     <form id="myForm" action="/submit_form" method="post">
         <label for="fname">客戶名稱:</label>
         <input type="text" id="fname" name="fname"><br>
